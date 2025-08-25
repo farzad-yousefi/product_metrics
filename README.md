@@ -10,7 +10,7 @@ Implements a **metrics health** system:
 ```bash
 # create fake events
 python data/make_fake_events.py --out data/events.parquet
-# build metric store
+# build metric store #
 python -m src.metrics.metric_store --events_path data/events.parquet --out_path data/metric_store.parquet
 # CUPED demo (see data/ab_demo.csv)
 python -m src.experiments.ab_cuped data/ab_demo.csv
