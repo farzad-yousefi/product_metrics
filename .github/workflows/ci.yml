@@ -10,8 +10,6 @@ jobs:
       - uses: astral-sh/setup-uv@v3
       - name: Create uv virtual environment
         run: uv venv
-      - name: Activate uv virtual environment
-        run: source .venv/bin/activate
       - name: Install Python 3.11 in uv venv
         run: uv python install 3.11
       - name: Install deps
