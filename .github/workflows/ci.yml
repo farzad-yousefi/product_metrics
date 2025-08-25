@@ -1,22 +1,19 @@
 name: ci
-on:
-  push:
-  pull_request:
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
-      - name: Create uv virtual environment
-        run: uv venv
-      - name: Install Python 3.11 in uv venv
-        run: uv python install 3.11
-      - name: Install deps
-        run: uv pip install -r requirements.txt && uv pip install pytest matplotlib
-      - name: Generate demo data + build metric store
+      - name: Install + run (single step)
         run: |
+          uv python install 3.11
+          uv venv .venv
+          . .venv/bin/activate
+          uv pip install -r requirements.txt
+          uv pip install pytest matplotlib
           python data/make_fake_events.py --out data/events.parquet --days 7 --users 200
           python -m src.metrics.metric_store --events-path data/events.parquet --out-path data/metric_store.parquet
-      - name: Run tests
-        run: pytest -q
+          pytest -q
+
